@@ -6,4 +6,7 @@ body
 {
     background: rgb(20, 20, 37);
     color: white;
+   
+    position: absolute;
+    bottom: 0px;
 }
