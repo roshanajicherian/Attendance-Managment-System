@@ -14,3 +14,8 @@ body
 {
     border: 1px solid black;
 }
+.addCourseForm
+{
+    padding: 70px 0;
+    text-align: center;
+}

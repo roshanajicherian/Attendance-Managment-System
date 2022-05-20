@@ -20,6 +20,12 @@ myApp.get("/teacherLanding",(req,res) =>
     let userName = "Teacher Name"
     res.render("teacherLanding",{pageTitle : pageTitle,userName : userName})
 })
+myApp.get("/addCourse",(req,res) =>
+{
+    let pageTitle = "Add Course"
+    let userName = "Teacher Name"
+    res.render("addCourse",{pageTitle : pageTitle,userName : userName})
+})
 myApp.listen(3000,()=>
 {
     console.log("Server is live on PORT 3000")
