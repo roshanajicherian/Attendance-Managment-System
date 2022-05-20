@@ -10,3 +10,7 @@ body
     position: absolute;
     bottom: 0px;
 }
+.teacher-pane
+{
+    border: 1px solid black;
+}
