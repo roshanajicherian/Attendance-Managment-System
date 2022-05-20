@@ -11,7 +11,14 @@ myApp.get("/",(req,res) =>
 {
     let pageTitle = "Home"
     let userName = "John Doe"
-    res.render("index",{pageTitle : pageTitle,userName : userName})
+    res.render("header",{pageTitle : pageTitle,userName : userName})
+})
+
+myApp.get("/teacherLanding",(req,res) =>
+{
+    let pageTitle = "Teacher Landing"
+    let userName = "Teacher Name"
+    res.render("teacherLanding",{pageTitle : pageTitle,userName : userName})
 })
 myApp.listen(3000,()=>
 {

@@ -1,4 +1,9 @@
-h1
+body
 {
-    color: blue;
+    font-family: 'Montserrat', sans-serif;
+}
+.footer
+{
+    background: rgb(20, 20, 37);
+    color: white;
 }
