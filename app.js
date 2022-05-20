@@ -1,12 +1,17 @@
 let express = require("express")
-let ejs = require("ejs")
+// let ejs = require("ejs")
 let bodyParser = require("body-parser")
 
 let myApp = new express();
+myApp.use(bodyParser.urlencoded({extended:true}))
+myApp.set('view engine', 'ejs');
+myApp.use(express.static("public"))
 
 myApp.get("/",(req,res) =>
 {
-    res.send("Hello!!!!")
+    let pageTitle = "Home"
+    let userName = "John Doe"
+    res.render("index",{pageTitle : pageTitle,userName : userName})
 })
 myApp.listen(3000,()=>
 {
