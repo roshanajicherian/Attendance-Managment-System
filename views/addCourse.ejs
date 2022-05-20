@@ -1,3 +1,21 @@
 <%- include("header") %>
-<p>Type code here</p>
+<div class="container">
+    <div class="addCourseForm">
+        <h1>Add Course</h1>
+        <form action="">
+            <label class="mt-3" for="semSelect">Semester</label>
+            <select class="mt-3" name="semSelect" id="semSelect">
+            <option value="none">None</option>
+            </select>
+            <br>
+            <label class="mt-3" for="courseSelect">Course</label>
+            <select class="mt-3" name="courseSelect" id="courseSelect">
+            <option value="none">None</option>
+            </select>
+            <br>
+            <input type="button" value="Confirm" class="btn btn-success mt-3">
+            <input type="button" value="Cancel" class="btn btn-danger mt-3">
+        </form>
+    </div>
+</div>
 <%- include("footer") %>
