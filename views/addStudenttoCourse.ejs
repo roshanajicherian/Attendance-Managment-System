@@ -1,3 +1,33 @@
 <%- include("header") %>
-<p>Type code here</p>
+<div class="container ">
+    <div class="centerAlign">
+        <h1>Enroll Students To Course</h1>
+        <form action="">
+            <label class="mt-3" for="semSelect">Semester</label>
+            <select class="mt-3" name="semSelect" id="semSelect">
+                <option value="none">None</option>
+            </select>
+            <label class="mt-3 ml-3" for="courseSelect">Select Course</label>
+            <select class="mt-3" name="courseSelect" id="courseSelect">
+                <option value="none">None</option>
+            </select>
+            <br>
+            <input type="button" value="Confirm" class="btn btn-success mt-3">
+            <input type="button" value="Cancel" class="btn btn-danger mt-3">
+        </form>
+    </div>
+    <div class="studentDisplayTable">
+        <table class="table mt-2 table-bordered table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <td>Student ID</td>
+                    <td>Student Name</td>
+                    <td>Semester</td>
+                    <td>Enroll</td>
+                </tr>
+            </thead>
+            <tbody class="table-striped"></tbody>
+        </div>
+    </div>
+</div>
 <%- include("footer") %>
