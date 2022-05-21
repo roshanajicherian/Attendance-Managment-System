@@ -16,3 +16,7 @@ body
     text-align: center;
     
 }
+.card
+{
+    height: 200px;
+}
