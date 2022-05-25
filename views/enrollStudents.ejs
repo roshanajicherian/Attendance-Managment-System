@@ -1,3 +1,32 @@
 <%- include("header") %>
-<p>Type code here</p>
+<div class="container">
+    <div class="centerAlign">
+        <form>
+            <h1>Add Student</h1>
+            <label class="mt-3">Name</label>
+            <input class="mt-3" type="text" placeholder="Name">
+            <br>
+            <label class="mt-3">ID</label>
+            <input class="mt-3" type="text" placeholder="ID">
+            <br>
+            <label class="mt-3">Phone</label>
+            <input class="mt-3" type="text" placeholder="Phone">
+            <br>
+            <label class="mt-3">Parent Phone</label>
+            <input class="mt-3" type="text" placeholder="Parent Phone">
+            <br>
+            <label class="mt-3">Semester</label>
+            <select class="mt-3" name="semSelect" id="semSelect">
+                <option value="none">None</option>
+            </select>
+            <br>
+            <label class="mt-3">Department</label>
+            <select class="mt-3" name="depSelect" id="depSelect">
+                <option value="none">None</option>
+            </select>
+            <br>
+            <input class="btn btn-primary mt-3" type="button" value="OK" >
+        </form>
+    </div>
+</div>
 <%- include("footer") %>
