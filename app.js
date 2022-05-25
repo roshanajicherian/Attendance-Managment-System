@@ -22,7 +22,7 @@ myApp.get("/enrollStudents",(req,res) =>
 
 myApp.get("/teacherLanding",(req,res) =>
 {
-    let pageTitle = "Teacher Landing"
+    let pageTitle = "Teacher Dashboard"
     let userName = "Teacher Name"
     res.render("teacherLanding",{pageTitle : pageTitle,userName : userName})
 })
@@ -38,6 +38,21 @@ myApp.get("/addStudenttoCourse",(req,res) =>
     let userName = "Teacher Name"
     res.render("addStudenttoCourse",{pageTitle : pageTitle,userName : userName})
 })
+
+myApp.get("/markAttendance",(req,res) =>
+{
+    let pageTitle = "Attendance Marker"
+    let userName = "Teacher Name"
+    res.render("markAttendance",{pageTitle : pageTitle,userName : userName})
+})
+
+myApp.get("/studentLanding",(req,res) =>
+{
+    let pageTitle = "Student Dashboard"
+    let userName = "Student Name"
+    res.render("studentLanding",{pageTitle : pageTitle,userName : userName})
+})
+
 myApp.listen(3000,()=>
 {
     console.log("Server is live on PORT 3000")
