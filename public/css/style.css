@@ -6,4 +6,17 @@ body
 {
     background: rgb(20, 20, 37);
     color: white;
+    position: absolute;
+    bottom: 0px;
+    height: 50px;
+}
+.centerAlign
+{
+    padding: 70px 0;
+    text-align: center;
+    
+}
+.card
+{
+    height: 200px;
 }
