@@ -9,9 +9,15 @@ myApp.use(express.static("public"))
 
 myApp.get("/",(req,res) =>
 {
-    let pageTitle = "Home"
-    let userName = "John Doe"
-    res.render("header",{pageTitle : pageTitle,userName : userName})
+    let pageTitle = "Login"
+    let userName = "Log In"
+    res.render("loginPage",{pageTitle : pageTitle,userName : userName})
+})
+myApp.get("/enrollStudents",(req,res) =>
+{
+    let pageTitle = "Enroll Students"
+    let userName = "Log In"
+    res.render("enrollStudents",{pageTitle : pageTitle,userName : userName})
 })
 
 myApp.get("/teacherLanding",(req,res) =>
