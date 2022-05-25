@@ -3,13 +3,17 @@
     <div class="centerAlign">
         <form>
             <h1>Login</h1>
-                <label class="mt-3">ID</label>
-                <input class="mt-3" type="text" placeholder="ID">
-                <br>
-                <label>Password </label>
-                <input class="mt-3" type="password" placeholder="Password">
-                <br>
-                <input class="mt-3 btn btn-primary" type="button" value="Login">
+            <input class="mt-3" type="radio" id="studentLoginRB" name="loginUserType" value="studentLogin">
+            <label class="mt-3" for="studentLoginRB">Student</label>
+            <input class="mt-3" type="radio" id="teacherLoginRB" name="loginUserType" value="Teacher">
+            <label class="mt-3" for="teacherLoginRB">Teacher</label><br>
+            <label class="mt-3">ID</label>
+            <input class="mt-3" type="text" placeholder="ID">
+            <br>
+            <label>Password </label>
+            <input class="mt-3" type="password" placeholder="Password">
+            <br>
+            <input class="mt-3 btn btn-primary" type="button" value="Login">
         </form>
     </div>
 </div>
