@@ -20,3 +20,57 @@ body
 {
     height: 200px;
 }
+
+.main-div{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.std-info{
+    color: white;
+    font-family: Montserrat;
+    background-color: rgb(41, 41, 41);
+    width: 33%;
+    height: 80%;
+    float: left;
+    padding: 1%;
+    border:rgb(20, 20, 37);
+    border-collapse: collapse;
+    border-radius: 10px;
+    
+    z-index: 100;
+}
+
+.table-student{
+    /* border: solid white;
+    border-width: 2px; */
+    border-collapse: separate;
+    border-spacing: 0.5em;
+}
+
+.std-label{
+    padding: 10px;
+    /* border-width: 2px; */
+    margin: 10px;
+    background-color: rgb(28, 103, 190);
+    border-radius: 7px 0px 0px 7px;
+    
+}
+.table-student td:not(.std-label, .user-img){
+    padding: 10px;
+    /* border-width: 2px; */
+    margin: 10px;
+    background-color: rgb(104, 104, 104);
+    border-radius: 0px 7px 7px 0px;
+}
+
+.user-img{text-align: center;}
+
+.cards-div{
+    float: left;
+    width: 67%;
+    height: 100%;
+    padding: 1%;
+    position: relative;
+}
