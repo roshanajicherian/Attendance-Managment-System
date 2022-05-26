@@ -11,22 +11,21 @@
                 </tr>
                 <tr>
                     <td class="std-label">Name</td>
-                    <td>fName lName</td>
+                    <td><%=firstName%> <%=lastName%> </td>
                 </tr>
                 <tr>
                     <td class="std-label">Reg No</td>
-                    <td>TRV00DP000</td>
+                    <td><%=studentID%></td>
                 </tr>
                 <tr>
                     <td class="std-label">Mail ID</td>
-                    <td>example@company.com</td>
+                    <td><%=emailID%></td>
                 </tr>
                 <tr>
                     <td class="std-label">Address</td>
-                    <td><address>Kyla Olsen
-                        Ap #651-8679 Sodales Av.
-                        Tamuning PA 10855
-                        (654) 393-5734</address></td>
+                    <td><address>
+                        <%= studentAddress %>
+                    </address></td>
                 </tr>
             </table>
         </div>
