@@ -50,7 +50,13 @@ myApp.get("/studentLanding",(req,res) =>
 {
     let pageTitle = "Student Dashboard"
     let userName = "Student Name"
-    res.render("studentLanding",{pageTitle : pageTitle,userName : userName})
+    let firstName = "John"
+    let lastName = "Doe"
+    let studentID = "TRV000IT000"
+    let emailID = "abc@xyz.com"
+    let studentAddress = "5-C, New Oaks Apartment, Pattom, Trivandrum 695004"
+
+    res.render("studentLanding",{pageTitle : pageTitle,userName : userName, firstName : firstName, lastName : lastName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
 })
 
 myApp.listen(3000,()=>
