@@ -1,11 +1,17 @@
 let express = require("express")
-// let ejs = require("ejs")
 let bodyParser = require("body-parser")
+const mongoose = require("mongoose")
+const Teacher = require("./models/Teachers");
 
 let myApp = new express();
 myApp.use(bodyParser.urlencoded({extended:true}))
 myApp.set('view engine', 'ejs');
 myApp.use(express.static("public"))
+
+const db = require("./config/keys").MongoURI;
+mongoose.connect(db,{useNewUrlParser : true})
+.then(()=>console.log("MongoDB Connected"))
+.catch((err) => {console.log(err)})
 
 myApp.get("/",(req,res) =>
 {
@@ -18,6 +24,12 @@ myApp.get("/enrollStudents",(req,res) =>
     let pageTitle = "Enroll Students"
     let userName = "Log In"
     res.render("enrollStudents",{pageTitle : pageTitle,userName : userName})
+})
+myApp.get("/addTeacher",(req,res) =>
+{
+    let pageTitle = "Add Teacher"
+    let userName = "Log In"
+    res.render("addTeacher",{pageTitle : pageTitle,userName : userName})
 })
 
 myApp.get("/teacherLanding",(req,res) =>
@@ -57,6 +69,35 @@ myApp.get("/studentLanding",(req,res) =>
     let studentAddress = "5-C, New Oaks Apartment, Pattom, Trivandrum 695004"
 
     res.render("studentLanding",{pageTitle : pageTitle,userName : userName, firstName : firstName, lastName : lastName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
+})
+
+myApp.post("/login",(req,res)=>
+{
+    console.log(req.body);
+    res.send("Hello");
+
+})
+myApp.post("/addTeacher",(req,res)=>
+{
+    let errors = [];
+    const {tName, tid, tPassword, tPhone, tDepartment} = req.body;
+    if(errors.length === 0)
+    {
+        const newTeacher = new Teacher(
+            {
+                tName,
+                tid,
+                tPassword,
+                tPhone,
+                tDepartment
+            }
+        );
+        newTeacher.save().then((user)=>{
+            console.log("Teacher details sucessfully saved.")
+            res.redirect("/login")
+        }) 
+    }
+    
 })
 
 myApp.listen(3000,()=>
