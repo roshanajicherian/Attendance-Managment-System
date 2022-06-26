@@ -1,31 +1,42 @@
 <%- include("header") %>
 <div class="container-fluid">
     <div class="centerAlign">
-        <form>
+        <form method="post" action="/enrollStudents">
             <h1>Add Student</h1>
             <label class="mt-3">Name</label>
-            <input class="mt-3" type="text" placeholder="Name">
+            <input class="mt-3" type="text" placeholder="Name" name="sName">
             <br>
             <label class="mt-3">ID</label>
-            <input class="mt-3" type="text" placeholder="ID">
+            <input class="mt-3" type="text" placeholder="ID" name="sId">
             <br>
             <label class="mt-3">Phone</label>
-            <input class="mt-3" type="text" placeholder="Phone">
+            <input class="mt-3" type="text" placeholder="Phone" name="sPhone">
             <br>
             <label class="mt-3">Parent Phone</label>
-            <input class="mt-3" type="text" placeholder="Parent Phone">
+            <input class="mt-3" type="text" placeholder="Parent Phone" name="sParentPhone">
             <br>
             <label class="mt-3">Semester</label>
-            <select class="mt-3" name="semSelect" id="semSelect">
-                <option value="none">None</option>
+            <select class="mt-3" name="sSemester" id="semSelect">
+                <option value="S1">S1</option>
+                <option value="S2">S2</option>
+                <option value="S3">S3</option>
+                <option value="S4">S4</option>
+                <option value="S5">S5</option>
+                <option value="S6">S5</option>
+                <option value="S7">S6</option>
+                <option value="S8">S8</option>
             </select>
             <br>
             <label class="mt-3">Department</label>
-            <select class="mt-3" name="depSelect" id="depSelect">
-                <option value="none">None</option>
+            <select class="mt-3" name="sDepartment" id="depSelect">
+                <option value="IT">IT</option>
+                <option value="EC">EC</option>
+                <option value="EE">EE</option>
+                <option value="ME">ME</option>
+                <option value="CE">CE</option>
             </select>
             <br>
-            <input class="btn btn-primary mt-3" type="button" value="OK" >
+            <input class="btn btn-primary mt-3" type="submit" value="OK" >
         </form>
     </div>
 </div>

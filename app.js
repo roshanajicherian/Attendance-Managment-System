@@ -1,8 +1,9 @@
-let express = require("express")
-let bodyParser = require("body-parser")
-const mongoose = require("mongoose")
+let express = require("express");
+let bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const Teacher = require("./models/Teachers");
-
+const Student = require("./models/Students");
+const bcrypt = require("bcryptjs")
 let myApp = new express();
 myApp.use(bodyParser.urlencoded({extended:true}))
 myApp.set('view engine', 'ejs');
@@ -92,14 +93,53 @@ myApp.post("/addTeacher",(req,res)=>
                 tDepartment
             }
         );
-        newTeacher.save().then((user)=>{
-            console.log("Teacher details sucessfully saved.")
-            res.redirect("/login")
-        }) 
+        bcrypt.genSalt(10,(err,salt) => 
+        {
+            if(err) throw err;
+                bcrypt.hash(newTeacher.tPassword,salt,(err,hash) => {
+                    if(err) throw err;
+                    console.log(hash)
+                    newTeacher.tPassword = hash
+                    newTeacher.save().then((user)=>{
+                        console.log("Teacher details sucessfully saved.")
+                        res.redirect("/login")
+                    }) 
+        })
+        })
     }
     
 })
-
+myApp.post("/enrollStudents",(req,res) =>
+{
+    let errors = [];
+    console.log(req.body);
+    const {sName, sId, sPhone, sParentPhone, sSemester, sDepartment} = req.body;
+    if(errors.length === 0)
+    {
+        const newStudent = new Student(
+            {
+                sName,
+                sId,
+                sPhone,
+                sParentPhone,
+                sSemester,
+                sDepartment
+            }
+        );
+        bcrypt.genSalt(10,(err,salt) => 
+        {
+            if(err) throw err;
+                bcrypt.hash(newStudent.password,salt,(err,hash) => {
+                    if(err) throw err;
+                    newStudent.password = hash
+                    newStudent.save().then((user)=>{
+                        console.log("Student details sucessfully saved.")
+                        res.redirect("/login")
+                    }) 
+        })
+        })
+    }
+})
 myApp.listen(3000,()=>
 {
     console.log("Server is live on PORT 3000")
