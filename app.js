@@ -6,8 +6,10 @@ const Student = require("./models/Students");
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
 const session = require('express-session');
-const intializePassport = require("./config/passport")
-intializePassport(passport);
+const intializePassportStudent = require("./config/passport").studentLogin
+intializePassportStudent(passport);
+const intializePassportTeacher = require("./config/passport").teacherLogin
+intializePassportTeacher(passport);
 let myApp = new express();
 myApp.use(bodyParser.urlencoded({extended:true}))
 myApp.set('view engine', 'ejs');
@@ -88,10 +90,20 @@ myApp.get("/studentLanding",(req,res) =>
 
 myApp.post("/login",(req,res,next)=>
 {
-    passport.authenticate("local",{
-        successRedirect : "/studentLanding",
-        failureRedirect : "/"
-    })(req, res, next);
+    if(req.body.loginUserType === "Student")
+    {
+        passport.authenticate("studentLocal",{
+            successRedirect : "/studentLanding",
+            failureRedirect : "/"
+        })(req, res, next);
+    }
+    if(req.body.loginUserType === "Teacher")
+    {
+        passport.authenticate("teacherLocal",{
+            successRedirect : "/teacherLanding",
+            failureRedirect : "/"
+        })(req, res, next);
+    }
 })
 myApp.post("/addTeacher",(req,res)=>
 {
