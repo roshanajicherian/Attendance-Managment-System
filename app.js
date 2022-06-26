@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const Teacher = require("./models/Teachers");
 const Student = require("./models/Students");
 const bcrypt = require("bcryptjs")
+const passport = require("passport")
+const session = require('express-session');
+const intializePassport = require("./config/passport")
+intializePassport(passport);
 let myApp = new express();
 myApp.use(bodyParser.urlencoded({extended:true}))
 myApp.set('view engine', 'ejs');
@@ -13,6 +17,16 @@ const db = require("./config/keys").MongoURI;
 mongoose.connect(db,{useNewUrlParser : true})
 .then(()=>console.log("MongoDB Connected"))
 .catch((err) => {console.log(err)})
+
+myApp.use(
+    session({
+      secret: 'secret',
+      resave: true,
+      saveUninitialized: true
+    })
+  );
+myApp.use(passport.initialize());
+myApp.use(passport.session());
 
 myApp.get("/",(req,res) =>
 {
@@ -72,11 +86,12 @@ myApp.get("/studentLanding",(req,res) =>
     res.render("studentLanding",{pageTitle : pageTitle,userName : userName, firstName : firstName, lastName : lastName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
 })
 
-myApp.post("/login",(req,res)=>
+myApp.post("/login",(req,res,next)=>
 {
-    console.log(req.body);
-    res.send("Hello");
-
+    passport.authenticate("local",{
+        successRedirect : "/studentLanding",
+        failureRedirect : "/"
+    })(req, res, next);
 })
 myApp.post("/addTeacher",(req,res)=>
 {
@@ -102,7 +117,7 @@ myApp.post("/addTeacher",(req,res)=>
                     newTeacher.tPassword = hash
                     newTeacher.save().then((user)=>{
                         console.log("Teacher details sucessfully saved.")
-                        res.redirect("/login")
+                        res.redirect("/")
                     }) 
         })
         })
@@ -129,12 +144,12 @@ myApp.post("/enrollStudents",(req,res) =>
         bcrypt.genSalt(10,(err,salt) => 
         {
             if(err) throw err;
-                bcrypt.hash(newStudent.password,salt,(err,hash) => {
+                bcrypt.hash(newStudent.sPassword,salt,(err,hash) => {
                     if(err) throw err;
-                    newStudent.password = hash
+                    newStudent.sPassword = hash
                     newStudent.save().then((user)=>{
                         console.log("Student details sucessfully saved.")
-                        res.redirect("/login")
+                        res.redirect("/")
                     }) 
         })
         })
