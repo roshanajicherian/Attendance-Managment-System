@@ -10,6 +10,8 @@ const intializePassportTeacher = require("./config/passport").teacherLogin
 intializePassportTeacher(passport);
 const intializePassportStudent = require("./config/passport").studentLogin
 intializePassportStudent(passport);
+const isTeacherLoggedIn = require("./config/auth").isTeacherLoggedIn;
+const isStudentLoggedIn = require("./config/auth").isStudentLoggedIn;
 let myApp = new express();
 myApp.use(bodyParser.urlencoded({extended:true}))
 myApp.set('view engine', 'ejs');
@@ -36,7 +38,7 @@ myApp.get("/",(req,res) =>
     let userName = "Log In"
     res.render("loginPage",{pageTitle : pageTitle,userName : userName})
 })
-myApp.get("/enrollStudents",(req,res) =>
+myApp.get("/enrollStudents",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Enroll Students"
     let userName = "Log In"
@@ -49,35 +51,35 @@ myApp.get("/addTeacher",(req,res) =>
     res.render("addTeacher",{pageTitle : pageTitle,userName : userName})
 })
 
-myApp.get("/teacherLanding",(req,res) =>
+myApp.get("/teacherLanding",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Teacher Dashboard"
     let userName = req.user.tName
     res.render("teacherLanding",{pageTitle : pageTitle,userName : userName})
 })
-myApp.get("/addCourse",(req,res) =>
+myApp.get("/addCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Course"
     let userName = "Teacher Name"
     res.render("addCourse",{pageTitle : pageTitle,userName : userName})
 })
-myApp.get("/addStudenttoCourse",(req,res) =>
+myApp.get("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Student to Course"
     let userName = "Teacher Name"
     res.render("addStudenttoCourse",{pageTitle : pageTitle,userName : userName})
 })
 
-myApp.get("/markAttendance",(req,res) =>
+myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Attendance Marker"
     let userName = "Teacher Name"
     res.render("markAttendance",{pageTitle : pageTitle,userName : userName})
 })
 
-myApp.get("/studentLanding",(req,res) =>
+myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
 {
-    console.log(req.session)
+    console.log(req.user)
     let pageTitle = "Student Dashboard"
     let userName = req.user.sName;
     let studentID = req.user.sId;
@@ -87,6 +89,17 @@ myApp.get("/studentLanding",(req,res) =>
     res.render("studentLanding",{pageTitle : pageTitle,userName : userName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
 })
 
+myApp.get("/logout",(req,res)=>
+{
+    console.log(req.session)
+    req.logout((err) =>
+    {
+        if(err) throw err;
+        console.log(req.session);
+        res.redirect("/");
+    });
+    
+})
 myApp.post("/login",(req,res,next)=>
 {
     if(req.body.loginUserType === "Student")
@@ -124,7 +137,6 @@ myApp.post("/addTeacher",(req,res)=>
             if(err) throw err;
                 bcrypt.hash(newTeacher.tPassword,salt,(err,hash) => {
                     if(err) throw err;
-                    console.log(hash)
                     newTeacher.tPassword = hash
                     newTeacher.save().then((user)=>{
                         console.log("Teacher details sucessfully saved.")
