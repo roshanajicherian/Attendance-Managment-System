@@ -79,7 +79,6 @@ myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
 {
-    console.log(req.user)
     let pageTitle = "Student Dashboard"
     let userName = req.user.sName;
     let studentID = req.user.sId;
@@ -91,11 +90,9 @@ myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
 
 myApp.get("/logout",(req,res)=>
 {
-    console.log(req.session)
     req.logout((err) =>
     {
         if(err) throw err;
-        console.log(req.session);
         res.redirect("/");
     });
     
@@ -150,7 +147,6 @@ myApp.post("/addTeacher",(req,res)=>
 myApp.post("/enrollStudents",(req,res) =>
 {
     let errors = [];
-    console.log(req.body);
     const {sName, sId, sPhone, sParentPhone, sSemester, sDepartment} = req.body;
     if(errors.length === 0)
     {
