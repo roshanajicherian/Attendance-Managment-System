@@ -6,10 +6,10 @@ const Student = require("./models/Students");
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
 const session = require('express-session');
-const intializePassportStudent = require("./config/passport").studentLogin
-intializePassportStudent(passport);
 const intializePassportTeacher = require("./config/passport").teacherLogin
 intializePassportTeacher(passport);
+const intializePassportStudent = require("./config/passport").studentLogin
+intializePassportStudent(passport);
 let myApp = new express();
 myApp.use(bodyParser.urlencoded({extended:true}))
 myApp.set('view engine', 'ejs');
@@ -52,7 +52,7 @@ myApp.get("/addTeacher",(req,res) =>
 myApp.get("/teacherLanding",(req,res) =>
 {
     let pageTitle = "Teacher Dashboard"
-    let userName = "Teacher Name"
+    let userName = req.user.tName
     res.render("teacherLanding",{pageTitle : pageTitle,userName : userName})
 })
 myApp.get("/addCourse",(req,res) =>
@@ -77,15 +77,14 @@ myApp.get("/markAttendance",(req,res) =>
 
 myApp.get("/studentLanding",(req,res) =>
 {
+    console.log(req.session)
     let pageTitle = "Student Dashboard"
-    let userName = "Student Name"
-    let firstName = "John"
-    let lastName = "Doe"
-    let studentID = "TRV000IT000"
+    let userName = req.user.sName;
+    let studentID = req.user.sId;
     let emailID = "abc@xyz.com"
     let studentAddress = "5-C, New Oaks Apartment, Pattom, Trivandrum 695004"
 
-    res.render("studentLanding",{pageTitle : pageTitle,userName : userName, firstName : firstName, lastName : lastName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
+    res.render("studentLanding",{pageTitle : pageTitle,userName : userName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
 })
 
 myApp.post("/login",(req,res,next)=>
