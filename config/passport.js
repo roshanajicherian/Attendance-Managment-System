@@ -9,7 +9,6 @@ const Teacher = require('../models/Teachers');
 let isTeacher = false;
 
 function studentLogin(passport) {
-  console.log("In student login authenticate");
   passport.use("studentLocal",
     new LocalStrategy({ usernameField: 'ID'}, (ID, password, done) => {
       Student.findOne({
@@ -30,21 +29,9 @@ function studentLogin(passport) {
       });
     })
   );
-
-  // passport.serializeUser(function(user, done) {
-  //   done(null, user.id);
-  // });
-
-  // passport.deserializeUser(function(id, done) {
-  //   Student.findById(id, function(err, user) {
-  //     done(err, user);
-  //   });
-  // });
 };
 
 function teacherLogin(passport) {
-  console.log("In teacher login authenticate");
-
   passport.use("teacherLocal",
     new LocalStrategy({ usernameField: 'ID'}, (ID, password, done) => {
       Teacher.findOne({
@@ -65,16 +52,6 @@ function teacherLogin(passport) {
       });
     })
   );
-
-  // passport.serializeUser(function(user, done) {
-  //   done(null, user.id);
-  // });
-
-  // passport.deserializeUser(function(id, done) {
-  //   Teacher.findById(id, function(err, user) {
-  //     done(err, user);
-  //   });
-  // });
 };
 passport.serializeUser(function(user, done) {
   done(null, user.id);
