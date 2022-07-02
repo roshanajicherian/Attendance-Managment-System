@@ -6,6 +6,7 @@ const Student = require("./models/Students");
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
 const session = require('express-session');
+const flash = require("connect-flash")
 const intializePassportTeacher = require("./config/passport").teacherLogin
 intializePassportTeacher(passport);
 const intializePassportStudent = require("./config/passport").studentLogin
@@ -29,8 +30,16 @@ myApp.use(
       saveUninitialized: true
     })
   );
+myApp.use(flash())
 myApp.use(passport.initialize());
 myApp.use(passport.session());
+
+myApp.use(function(request, response, next) {
+    response.locals.success_alert_message  = request.flash('success_alert_message');
+    response.locals.error_message = request.flash('error_message');
+    response.locals.error = request.flash('error');
+    next();
+});
 
 myApp.get("/",(req,res) =>
 {
@@ -167,7 +176,7 @@ myApp.post("/enrollStudents",(req,res) =>
                     if(err) throw err;
                     newStudent.sPassword = hash
                     newStudent.save().then((user)=>{
-                        console.log("Student details sucessfully saved.")
+                        req.flash("success_alert_message","Student has been registered. You can now login")
                         res.redirect("/")
                     }) 
         })
