@@ -34,10 +34,10 @@ myApp.use(flash())
 myApp.use(passport.initialize());
 myApp.use(passport.session());
 
-myApp.use(function(request, response, next) {
-    response.locals.success_alert_message  = request.flash('success_alert_message');
-    response.locals.error_message = request.flash('error_message');
-    response.locals.error = request.flash('error');
+myApp.use(function(req, res, next) {
+    res.locals.success_alert_message  = req.flash('success_alert_message');
+    res.locals.error_message = req.flash('error_message');
+    res.locals.error = req.flash('error');
     next();
 });
 
@@ -112,14 +112,16 @@ myApp.post("/login",(req,res,next)=>
     {
         passport.authenticate("studentLocal",{
             successRedirect : "/studentLanding",
-            failureRedirect : "/"
+            failureRedirect : "/",
+            failureFlash : true
         })(req, res, next);
     }
     if(req.body.loginUserType === "Teacher")
     {
         passport.authenticate("teacherLocal",{
             successRedirect : "/teacherLanding",
-            failureRedirect : "/"
+            failureRedirect : "/",
+            failureFlash : true
         })(req, res, next);
     }
 })
