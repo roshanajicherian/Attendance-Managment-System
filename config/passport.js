@@ -23,7 +23,7 @@ function studentLogin(passport) {
             isTeacher = false;
             return done(null, student);
           } else {
-            return done(null, false, { message: 'Password incorrect' });
+            return done(null, false, { message: 'Please check your password' });
           }
         });
       });
@@ -38,7 +38,7 @@ function teacherLogin(passport) {
         tid: ID
       }).then((teacher) => {
         if (!teacher) {
-          return done(null, false, { message: 'The teacher does not exist' });
+          return done(null, false, { message: 'The teacher does not exist.' });
         }
         bcrypt.compare(password, teacher.tPassword, (err, isMatch) => {
           if (err) throw err;
@@ -46,7 +46,7 @@ function teacherLogin(passport) {
             isTeacher = true;
             return done(null, teacher);
           } else {
-            return done(null, false, { message: 'Password incorrect teacher',passIn: password, passDB: teacher.tPassword});
+            return done(null, false, { message: 'Please check your password',passIn: password, passDB: teacher.tPassword});
           }
         });
       });
