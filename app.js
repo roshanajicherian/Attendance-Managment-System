@@ -72,6 +72,12 @@ myApp.get("/addCourse",isTeacherLoggedIn,(req,res) =>
     let userName = "Teacher Name"
     res.render("addCourse",{pageTitle : pageTitle,userName : userName})
 })
+myApp.get("/createCourse",isTeacherLoggedIn,(req,res) =>
+{
+    let pageTitle = "Create Course"
+    let userName = req.user.tName;
+    res.render("createCourse",{pageTitle : pageTitle,userName : userName})
+})
 myApp.get("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Student to Course"
@@ -185,6 +191,10 @@ myApp.post("/enrollStudents",(req,res) =>
         })
     }
 })
+myApp.post("/createCourse",isTeacherLoggedIn,(req,res) =>
+{
+    console.log(req.body);
+});
 myApp.listen(3000,()=>
 {
     console.log("Server is live on PORT 3000")
