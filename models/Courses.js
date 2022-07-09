@@ -9,9 +9,13 @@ const CourseScheme = new mongoose.Schema({
     {
         type: String,
         required : true
+    },
+
+    cSemester : {
+        type: String
     }
 });
 
 const Course = mongoose.model("Course",CourseScheme);
 
-module.exports = Course
+module.exports = Course;

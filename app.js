@@ -3,6 +3,7 @@ let bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Teacher = require("./models/Teachers");
 const Student = require("./models/Students");
+const Course = require("./models/Courses");
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
 const session = require('express-session');
@@ -114,6 +115,7 @@ myApp.get("/logout",(req,res)=>
 })
 myApp.post("/login",(req,res,next)=>
 {
+    console.log(req.body);
     if(req.body.loginUserType === "Student")
     {
         passport.authenticate("studentLocal",{
@@ -191,10 +193,43 @@ myApp.post("/enrollStudents",(req,res) =>
         })
     }
 })
+
 myApp.post("/createCourse",isTeacherLoggedIn,(req,res) =>
 {
     console.log(req.body);
-});
+    const {cSemester, cid, cName} = req.body;
+    console.log(cSemester, cid, cName);
+
+    const newCourse = new Course(
+        {
+            cid:cid,
+            cName:cName,
+            cSemester:cSemester
+        }
+    );
+
+    newCourse.save();
+
+    console.log(newCourse.cid, newCourse.cName, newCourse.cSemester);
+
+    
+    
+    Course.find((err,courses) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(courses);
+        }
+    });
+
+
+    res.redirect("/teacherLanding");
+    
+})
+
+
+
 myApp.listen(3000,()=>
 {
     console.log("Server is live on PORT 3000")
