@@ -2,7 +2,7 @@
 <div class="container">
     <div class="centerAlign">
         <h1>Add Course</h1>
-        <form action="">
+        <form action="/addCourse" method="post">
             <label class="mt-3" for="semSelect">Semester</label>
             <select class="mt-3" name="semSelect" id="semSelect" title="Select Semester">
             <option value="S1">S1</option>
@@ -20,7 +20,7 @@
             <option value="none">None</option>
             </select>
             <br>
-            <input type="button" value="Confirm" class="btn btn-success mt-3">
+            <input type="submit" value="Confirm" class="btn btn-success mt-3">
             <input type="button" value="Cancel" class="btn btn-danger mt-3">
         </form>
     </div>
