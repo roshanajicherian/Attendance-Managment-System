@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Course = require("./Courses")
 const StudentSchema = new mongoose.Schema({
     sId : {
         type : String,

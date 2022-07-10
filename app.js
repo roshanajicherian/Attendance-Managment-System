@@ -7,7 +7,7 @@ const Course = require("./models/Courses");
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
 const session = require('express-session');
-const flash = require("connect-flash")
+const flash = require("connect-flash");
 const intializePassportTeacher = require("./config/passport").teacherLogin
 intializePassportTeacher(passport);
 const intializePassportStudent = require("./config/passport").studentLogin
@@ -71,7 +71,15 @@ myApp.get("/addCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Course"
     let userName = "Teacher Name"
-    res.render("addCourse",{pageTitle : pageTitle,userName : userName})
+    let courseList = [];
+    Course.find((err,course)=>{
+        if(err) throw err;
+        for(let i=0;i<course.length;i++)
+        {
+            courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
+        }
+        res.render("addCourse",{pageTitle : pageTitle,userName : userName, courseList : courseList})
+    })
 })
 myApp.get("/createCourse",isTeacherLoggedIn,(req,res) =>
 {
@@ -115,7 +123,6 @@ myApp.get("/logout",(req,res)=>
 })
 myApp.post("/login",(req,res,next)=>
 {
-    console.log(req.body);
     if(req.body.loginUserType === "Student")
     {
         passport.authenticate("studentLocal",{
@@ -196,10 +203,7 @@ myApp.post("/enrollStudents",(req,res) =>
 
 myApp.post("/createCourse",isTeacherLoggedIn,(req,res) =>
 {
-    console.log(req.body);
     const {cSemester, cid, cName} = req.body;
-    console.log(cSemester, cid, cName);
-
     const newCourse = new Course(
         {
             cid:cid,
@@ -214,31 +218,22 @@ myApp.post("/createCourse",isTeacherLoggedIn,(req,res) =>
     res.redirect("/teacherLanding");
     
 })
-
 myApp.post("/addCourse",isTeacherLoggedIn,(req,res) =>
 {
-    console.log(req.body);
-    const {semSelect, courseSelect} = req.body;
-    console.log(semSelect, courseSelect);
-
-    const newCourse = new Course(
+    Teacher.findOne({_id : req.user._id},"courseIdList").then((proj)=>
+    {
+        let courseIdList = proj.courseIdList;
+        Course.findOne({_id : req.body.courseSelect}).then((course) =>
         {
-            semSelect, 
-            courseSelect
-        }
-    );
-
-    //newCourse.save();
-
-    //console.log(newCourse.cid, newCourse.cName, newCourse.cSemester);
-
-
+            courseIdList.push(course);
+            Teacher.updateOne({_id : req.user._id},{courseIdList : courseIdList}).then((res) =>
+            {
+                console.log("Updated");
+            }).catch((err)=> {if(err) throw err;})
+        }).catch((err)=> {if(err) throw err});
+    }).catch((err)=> {if(err) throw err});
     res.redirect("/teacherLanding");
-    
 })
-
-
-
 myApp.listen(3000,()=>
 {
     console.log("Server is live on PORT 3000")
