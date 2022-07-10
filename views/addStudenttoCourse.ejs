@@ -2,17 +2,26 @@
 <div class="container-fluid">
     <div class="centerAlign">
         <h1>Enroll Students To Course</h1>
-        <form action="">
+        <form action="/addStudenttoCourse" method="post">
             <label class="mt-3" for="semSelect">Semester</label>
             <select class="mt-3" name="semSelect" id="semSelect">
-                <option value="none">None</option>
+                <option value="S1">S1</option>
+                <option value="S2">S2</option>
+                <option value="S3">S3</option>
+                <option value="S4">S4</option>
+                <option value="S5">S5</option>
+                <option value="S6">S6</option>
+                <option value="S7">S7</option>
+                <option value="S8">S8</option>
             </select>
             <label class="mt-3 ml-3" for="courseSelect">Select Course</label>
             <select class="mt-3" name="courseSelect" id="courseSelect">
-                <option value="none">None</option>
+                <% for(let i = 0; i < courseList.length; i++) { %>
+                    <option value="<%= courseList[i].cid %>"><%= courseList[i].cName %></option>
+                <% } %>
             </select>
             <br>
-            <input type="button" value="Confirm" class="btn btn-success mt-3">
+            <input type="submit" value="Show Students" class="btn btn-success mt-3">
             <input type="button" value="Cancel" class="btn btn-danger mt-3">
         </form>
     </div>
@@ -22,11 +31,20 @@
                 <tr>
                     <td>Student ID</td>
                     <td>Student Name</td>
-                    <td>Semester</td>
                     <td>Enroll</td>
                 </tr>
             </thead>
-            <tbody class="table-striped"></tbody>
+            <tbody class="table-striped">
+                <% if(studentDetails) { %>
+                    <% for(let i = 0; i < studentDetails.length; i++) { %>
+                        <tr>
+                            <td><%= studentDetails[i].sId %></td>
+                            <td><%= studentDetails[i].sName %></td>
+                            <td><input type="checkbox" name="studentDetails[]" value="<%= studentDetails[i].sid %>"></td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </tbody>
         </table>
     </div>
 </div>

@@ -91,7 +91,15 @@ myApp.get("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Student to Course"
     let userName = "Teacher Name"
-    res.render("addStudenttoCourse",{pageTitle : pageTitle,userName : userName})
+    let courseList = [];
+    Course.find((err,course)=>{
+        if(err) throw err;
+        for(let i=0;i<course.length;i++)
+        {
+            courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
+        }
+    res.render("addStudenttoCourse",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
+    });
 })
 
 myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
@@ -233,6 +241,19 @@ myApp.post("/addCourse",isTeacherLoggedIn,(req,res) =>
         }).catch((err)=> {if(err) throw err});
     }).catch((err)=> {if(err) throw err});
     res.redirect("/teacherLanding");
+})
+myApp.post("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
+{
+    let studentDetails = [];
+    let courseList = [];
+    Student.find({sSemester : req.body.semSelect}).then((studentList)=>
+    {
+        for(let i = 0;i<studentList.length;i++)   
+            studentDetails.push({sId : studentList[i].sId, sName : studentList[i].sName})
+        res.render("addStudenttoCourse",{pageTitle : "Add Student to Course",userName : "Teacher Name",courseList : courseList,studentDetails : studentDetails})
+    }).catch((err)=>{
+        if(err) throw err;
+    })
 })
 myApp.listen(3000,()=>
 {
