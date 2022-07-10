@@ -210,18 +210,27 @@ myApp.post("/createCourse",isTeacherLoggedIn,(req,res) =>
 
     newCourse.save();
 
-    console.log(newCourse.cid, newCourse.cName, newCourse.cSemester);
 
+    res.redirect("/teacherLanding");
     
-    
-    Course.find((err,courses) => {
-        if(err){
-            console.log(err);
+})
+
+myApp.post("/addCourse",isTeacherLoggedIn,(req,res) =>
+{
+    console.log(req.body);
+    const {semSelect, courseSelect} = req.body;
+    console.log(semSelect, courseSelect);
+
+    const newCourse = new Course(
+        {
+            semSelect, 
+            courseSelect
         }
-        else{
-            console.log(courses);
-        }
-    });
+    );
+
+    //newCourse.save();
+
+    //console.log(newCourse.cid, newCourse.cName, newCourse.cSemester);
 
 
     res.redirect("/teacherLanding");
