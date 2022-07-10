@@ -17,6 +17,9 @@ const TeaherSchema = new mongoose.Schema({
         type : String,
         required: true
     },
+    courseIdList : {
+        type : Array
+    },
     timestamp : {
         type : Date,
         default : Date.now

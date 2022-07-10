@@ -17,7 +17,9 @@
             <br>
             <label class="mt-3" for="courseSelect">Course</label>
             <select class="mt-3" name="courseSelect" id="courseSelect">
-            <option value="none">None</option>
+                <% for(let i = 0; i < courseList.length; i++) { %>
+                    <option value="<%= courseList[i].cid %>"><%= courseList[i].cName %></option>
+                <% } %>
             </select>
             <br>
             <input type="submit" value="Confirm" class="btn btn-success mt-3">
