@@ -42,6 +42,7 @@ myApp.use(function(req, res, next) {
     next();
 });
 
+let selectedCourse = null;
 myApp.get("/",(req,res) =>
 {
     let pageTitle = "Login"
@@ -244,6 +245,7 @@ myApp.post("/addCourse",isTeacherLoggedIn,(req,res) =>
 })
 myApp.post("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 {
+    selectedCourse = req.body.courseSelect;
     let studentDetails = [];
     let courseList = [];
     Student.find({sSemester : req.body.semSelect}).then((studentList)=>
@@ -254,6 +256,33 @@ myApp.post("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
     }).catch((err)=>{
         if(err) throw err;
     })
+})
+myApp.post("/studentDisplayTableConfirm",isTeacherLoggedIn,(req,res) =>
+{
+    // TODO : Add authentication condition over here 
+    // TODO : Add condition of the course is already added for a student check
+    let studentDetails = req.body.studentDetails;
+    for(let i=0;i<studentDetails.length;i++)
+    {
+        Student.findOne({sId : studentDetails[i]},"enrolledCourse").then((proj)=>
+        {
+            let enrolledCourse = [];
+            if(proj.enrolledCourse)
+                enrolledCourse = proj.enrolledCourse;
+            enrolledCourse.push(selectedCourse)
+            console.log(studentDetails[i])
+            console.log(typeof studentDetails[i])
+            console.log(enrolledCourse)
+            Student.updateOne({sId : studentDetails[i]},{enrolledCourse : enrolledCourse}).then((student)=>
+            {
+                console.log(student)
+                console.log("Updated");
+            }).catch((err) => {
+                if(err) throw err;
+            })
+        }).catch((err) => {if (err) throw err;})
+    }
+    res.redirect("/teacherLanding");
 })
 myApp.listen(3000,()=>
 {
