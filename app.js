@@ -122,6 +122,21 @@ myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
     res.render("markAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
     });
 })
+myApp.get("/viewAttendance",isStudentLoggedIn,(req,res) =>
+{
+    const pageTitle = "View Attendance"
+    let userName = "Student Name"
+    let courseList =  [];
+    Course.find((err,course)=>{
+        if(err) throw err;
+        for(let i=0;i<course.length;i++)
+        {
+            courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
+        }
+    res.render("viewAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
+    });
+})
+
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
 {
@@ -325,6 +340,26 @@ myApp.post("/markAttendanceConfirm",isTeacherLoggedIn,(req,res) =>
         }) 
     }
     res.redirect("/teacherLanding")
+})
+myApp.post("/viewAttendance",isStudentLoggedIn,(req,res) =>
+{
+    console.log(req.user);
+    let datesList = [];
+    let sId = req.user.sId;
+    let courseId = req.body.courseSelect;
+    console.log(sId)
+    console.log(courseId)
+    console.log("-------------------------------")
+    Attendance.find({studentId : sId, courseId : courseId}).
+    then((attend)=>{
+        console.log(attend)
+        for(let i = 0;i<attend.length;i++)   
+            datesList.push({date : attend[i].lessonDate});
+        console.log(typeof datesList[0].date);
+    }).
+    catch((err)=>{
+        if(err) throw err;
+    });
 })
 myApp.listen(3000,()=>
 {
