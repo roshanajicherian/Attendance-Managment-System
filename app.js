@@ -107,7 +107,15 @@ myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Attendance Marker"
     let userName = "Teacher Name"
-    res.render("markAttendance",{pageTitle : pageTitle,userName : userName})
+    let courseList = [];
+    Course.find((err,course)=>{
+        if(err) throw err;
+        for(let i=0;i<course.length;i++)
+        {
+            courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
+        }
+    res.render("markAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
+    });
 })
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
@@ -279,6 +287,19 @@ myApp.post("/studentDisplayTableConfirm",isTeacherLoggedIn,(req,res) =>
         }).catch((err) => {if (err) throw err;})
     }
     res.redirect("/teacherLanding");
+})
+myApp.post("/markAttendance",isTeacherLoggedIn,(req,res) =>
+{
+    let studentDetails = [];
+    let courseList =  [];
+    Student.find({sSemester : req.body.semSelect, enrolledCourse : req.body.courseSelect}).then((studentList)=>
+    {
+        for(let i = 0;i<studentList.length;i++)   
+            studentDetails.push({sId : studentList[i].sId, sName : studentList[i].sName})
+        res.render("markAttendance",{pageTitle : "Mark Attendance",userName : "Teacher Name",studentDetails : studentDetails, courseList : courseList, dateSelect : req.body.dateSelect})
+    }).catch((err)=>{
+        if(err) throw err;
+    })
 })
 myApp.listen(3000,()=>
 {
