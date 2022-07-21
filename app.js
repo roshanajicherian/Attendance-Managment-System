@@ -22,7 +22,7 @@ myApp.use(express.static("public"))
 const db = require("./config/keys").MongoURI;
 mongoose.connect(db,{useNewUrlParser : true})
 .then(()=>console.log("MongoDB Connected"))
-.catch((err) => {console.log(err)})
+.catch((err) => {if (err) throw err;})
 
 myApp.use(
     session({
@@ -270,12 +270,8 @@ myApp.post("/studentDisplayTableConfirm",isTeacherLoggedIn,(req,res) =>
             if(proj.enrolledCourse)
                 enrolledCourse = proj.enrolledCourse;
             enrolledCourse.push(selectedCourse)
-            console.log(studentDetails[i])
-            console.log(typeof studentDetails[i])
-            console.log(enrolledCourse)
             Student.updateOne({sId : studentDetails[i]},{enrolledCourse : enrolledCourse}).then((student)=>
             {
-                console.log(student)
                 console.log("Updated");
             }).catch((err) => {
                 if(err) throw err;
