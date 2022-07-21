@@ -29,6 +29,10 @@ const StudentSchema = new mongoose.Schema({
         type : String,
         required: true
     },
+    enrolledCourse :
+    {
+        type: Array
+    },
     timestamp : {
         type : Date,
         default : Date.now
