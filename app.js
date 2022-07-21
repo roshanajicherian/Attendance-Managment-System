@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Teacher = require("./models/Teachers");
 const Student = require("./models/Students");
 const Course = require("./models/Courses");
+const Attendance = require("./models/Attendance");
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
 const session = require('express-session');
@@ -42,7 +43,11 @@ myApp.use(function(req, res, next) {
     next();
 });
 
+// Globals 
 let selectedCourse = null;
+let courseId = null;
+let attendanceDate = null;
+
 myApp.get("/",(req,res) =>
 {
     let pageTitle = "Login"
@@ -292,6 +297,8 @@ myApp.post("/markAttendance",isTeacherLoggedIn,(req,res) =>
 {
     let studentDetails = [];
     let courseList =  [];
+    courseId = req.body.courseSelect;
+    attendanceDate =  req.body.dateSelect;
     Student.find({sSemester : req.body.semSelect, enrolledCourse : req.body.courseSelect}).then((studentList)=>
     {
         for(let i = 0;i<studentList.length;i++)   
@@ -300,6 +307,24 @@ myApp.post("/markAttendance",isTeacherLoggedIn,(req,res) =>
     }).catch((err)=>{
         if(err) throw err;
     })
+})
+myApp.post("/markAttendanceConfirm",isTeacherLoggedIn,(req,res) =>
+{
+    const studentDetails = req.body.studentDetails;
+    for (let i=0;i<studentDetails.length;i++)
+    {
+        const newAttendance = new Attendance(
+            {
+                courseId : courseId,
+                studentId : studentDetails[i],
+                lessonDate : attendanceDate
+            }
+        );
+        newAttendance.save().then((attendance)=>{
+            console.log("Attendance details sucessfully saved.")
+        }) 
+    }
+    res.redirect("/teacherLanding")
 })
 myApp.listen(3000,()=>
 {
