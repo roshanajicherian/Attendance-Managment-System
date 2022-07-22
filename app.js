@@ -51,19 +51,18 @@ let attendanceDate = null;
 myApp.get("/",(req,res) =>
 {
     let pageTitle = "Login"
-    let userName = "Log In"
-    res.render("loginPage",{pageTitle : pageTitle,userName : userName})
+    res.render("loginPage",{pageTitle : pageTitle})
 })
 myApp.get("/enrollStudents",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Enroll Students"
-    let userName = "Log In"
+    let userName = req.user.tName
     res.render("enrollStudents",{pageTitle : pageTitle,userName : userName})
 })
 myApp.get("/addTeacher",(req,res) =>
 {
     let pageTitle = "Add Teacher"
-    let userName = "Log In"
+    let userName = req.user.tName
     res.render("addTeacher",{pageTitle : pageTitle,userName : userName})
 })
 
@@ -76,7 +75,7 @@ myApp.get("/teacherLanding",isTeacherLoggedIn,(req,res) =>
 myApp.get("/addCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Course"
-    let userName = "Teacher Name"
+    let userName = req.user.tName
     let courseList = [];
     Course.find((err,course)=>{
         if(err) throw err;
@@ -96,7 +95,7 @@ myApp.get("/createCourse",isTeacherLoggedIn,(req,res) =>
 myApp.get("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Add Student to Course"
-    let userName = "Teacher Name"
+    let userName = req.user.tName
     let courseList = [];
     Course.find((err,course)=>{
         if(err) throw err;
@@ -111,7 +110,7 @@ myApp.get("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Attendance Marker"
-    let userName = "Teacher Name"
+    let userName = req.user.tName
     let courseList = [];
     Course.find((err,course)=>{
         if(err) throw err;
@@ -119,13 +118,14 @@ myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
         {
             courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
         }
+        console.log(courseList);
     res.render("markAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
     });
 })
 myApp.get("/viewAttendance",isStudentLoggedIn,(req,res) =>
 {
     const pageTitle = "View Attendance"
-    let userName = "Student Name"
+    let userName = req.user.sName
     let courseList =  [];
     Course.find((err,course)=>{
         if(err) throw err;
@@ -179,8 +179,13 @@ myApp.post("/login",(req,res,next)=>
 })
 myApp.post("/addTeacher",(req,res)=>
 {
+    let pageTitle = "Add Teacher"
     let errors = [];
     const {tName, tid, tPassword, tPhone, tDepartment} = req.body;
+    if(!tName || !tid || !tPassword || !tPhone || !tDepartment)
+    {
+        errors.push("Please fill all the details.")
+    }
     if(errors.length === 0)
     {
         const newTeacher = new Teacher(
@@ -205,6 +210,10 @@ myApp.post("/addTeacher",(req,res)=>
         })
         })
     }
+    else
+    {
+        res.render("addTeacher",{pageTitle : pageTitle,errors : errors})
+    }
     
 })
 myApp.post("/enrollStudents",(req,res) =>
@@ -212,8 +221,8 @@ myApp.post("/enrollStudents",(req,res) =>
     let pageTitle = "Enroll Students"
     let userName = req.user.tName;
     let errors = [];
-    const {sName, sId, sPhone, sParentPhone, sSemester, sDepartment} = req.body;
-    if(!sName||!sId||!sPhone||!sParentPhone||!sSemester||!sDepartment)
+    const {sName, sId, sPhone, sEmail,sAddress,sParentPhone, sSemester, sDepartment} = req.body;
+    if(!sName||!sId||!sPhone||!sEmail||!sAddress||!sParentPhone||!sSemester||!sDepartment)
     {
         errors.push("Please fill all the details.")
     }
@@ -223,6 +232,8 @@ myApp.post("/enrollStudents",(req,res) =>
             {
                 sName,
                 sId,
+                sEmail,
+                sAddress,
                 sPhone,
                 sParentPhone,
                 sSemester,
@@ -237,7 +248,7 @@ myApp.post("/enrollStudents",(req,res) =>
                     newStudent.sPassword = hash
                     newStudent.save().then((user)=>{
                         req.flash("success_alert_message","Student has been registered. You can now login")
-                        res.redirect("/")
+                        res.redirect("/enrollStudents")
                     }) 
         })
         })
