@@ -1,6 +1,7 @@
 <%- include("header") %>
 <div class="container-fluid">
     <div class="centerAlign">
+        <%- include("messages") %>
         <form method="post" action="/enrollStudents">
             <h1>Add Student</h1>
             <label class="mt-3">Name</label>
@@ -8,6 +9,12 @@
             <br>
             <label class="mt-3">ID</label>
             <input class="mt-3" type="text" placeholder="ID" name="sId">
+            <br>
+            <label class="mt-3">Email</label>
+            <input class="mt-3" type="email" placeholder="ID" name="sEmail">
+            <br>
+            <label class="mt-3">Address</label>
+            <textarea style="resize: none" name="sAddress" class="mt-3" id="sAddress" cols="15" rows="5"></textarea>
             <br>
             <label class="mt-3">Phone</label>
             <input class="mt-3" type="text" placeholder="Phone" name="sPhone">
@@ -37,6 +44,7 @@
             </select>
             <br>
             <input class="btn btn-primary mt-3" type="submit" value="OK" >
+            <a class="btn btn-danger mt-3" href="teacherLanding">Cancel</a>
         </form>
     </div>
 </div>

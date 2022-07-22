@@ -12,6 +12,14 @@ const StudentSchema = new mongoose.Schema({
         type : String,
         default : "gecbh*123"
     },
+    sEmail : {
+        type : String,
+        required : true
+    },
+    sAddress : {
+        type : String,
+        required : true
+    },
     sPhone : {
         type : String,
         required: true
@@ -31,6 +39,11 @@ const StudentSchema = new mongoose.Schema({
     enrolledCourse :
     {
         type: Array
+    },
+    isStudentActive :
+    {
+        type: Boolean,
+        default : true
     },
     timestamp : {
         type : Date,
