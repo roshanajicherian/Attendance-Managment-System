@@ -133,7 +133,7 @@ myApp.get("/viewAttendance",isStudentLoggedIn,(req,res) =>
         {
             courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
         }
-    res.render("viewAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
+    res.render("viewAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null, dateList : null})
     });
 })
 
@@ -343,6 +343,7 @@ myApp.post("/markAttendanceConfirm",isTeacherLoggedIn,(req,res) =>
 })
 myApp.post("/viewAttendance",isStudentLoggedIn,(req,res) =>
 {
+    let weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday']
     console.log(req.user);
     let datesList = [];
     let sId = req.user.sId;
@@ -354,12 +355,17 @@ myApp.post("/viewAttendance",isStudentLoggedIn,(req,res) =>
     then((attend)=>{
         console.log(attend)
         for(let i = 0;i<attend.length;i++)   
-            datesList.push({date : attend[i].lessonDate});
-        console.log(typeof datesList[0].date);
+        {
+            let tempDate = new Date(attend[i].lessonDate);
+            datesList.push(weekday[tempDate.getDay()] +", " + tempDate.toLocaleDateString());
+        }
+        console.log(datesList);
+        res.render("viewAttendance",{pageTitle : "View Attendance",userName : "Teacher Name",dateSelect : req.body.dateSelect, dateList : datesList, courseList : null})
     }).
     catch((err)=>{
         if(err) throw err;
     });
+
 })
 myApp.listen(3000,()=>
 {

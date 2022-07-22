@@ -16,8 +16,10 @@
             </select>
             <label class="mt-3 ml-3" for="courseSelect">Select Course</label>
             <select class="mt-3" name="courseSelect" id="courseSelect">
-                <% for(let i = 0; i < courseList.length; i++) { %>
-                    <option value="<%= courseList[i].cid %>"><%= courseList[i].cName %></option>
+                <% if(courseList) { %>
+                    <% for(let i = 0; i < courseList.length; i++) { %>
+                        <option value="<%= courseList[i].cid %>"><%= courseList[i].cName %></option>
+                    <% } %>
                 <% } %>
             </select>
             <br>
@@ -35,11 +37,10 @@
                 </tr>
             </thead>
             <tbody class="table-striped">
-                <% if(studentDetails) { %>
-                    <% for(let i = 0; i < studentDetails.length; i++) { %>
+                <% if(dateList) { %>
+                    <% for(let i = 0; i < dateList.length; i++) { %>
                         <tr>
-                            <td><%= studentDetails[i].sId %></td>
-                            <!-- <td><%= studentDetails[i].sName %></td> -->
+                            <td><%= dateList[i] %></td>
                             <td>Day</td>
                             <td>Present</td>
                         </tr>
