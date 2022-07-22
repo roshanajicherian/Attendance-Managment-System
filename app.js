@@ -71,7 +71,7 @@ myApp.get("/teacherLanding",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Teacher Dashboard"
     let userName = req.user.tName
-    res.render("teacherLanding",{pageTitle : pageTitle,userName : userName})
+    res.render("teacherLanding",{pageTitle : pageTitle,userName : userName, errors : []})
 })
 myApp.get("/addCourse",isTeacherLoggedIn,(req,res) =>
 {
@@ -209,8 +209,14 @@ myApp.post("/addTeacher",(req,res)=>
 })
 myApp.post("/enrollStudents",(req,res) =>
 {
+    let pageTitle = "Enroll Students"
+    let userName = req.user.tName;
     let errors = [];
     const {sName, sId, sPhone, sParentPhone, sSemester, sDepartment} = req.body;
+    if(!sName||!sId||!sPhone||!sParentPhone||!sSemester||!sDepartment)
+    {
+        errors.push("Please fill all the details.")
+    }
     if(errors.length === 0)
     {
         const newStudent = new Student(
@@ -235,6 +241,10 @@ myApp.post("/enrollStudents",(req,res) =>
                     }) 
         })
         })
+    }
+    else
+    {
+        res.render("enrollStudents",{pageTitle : pageTitle,userName : userName,errors : errors})
     }
 })
 
