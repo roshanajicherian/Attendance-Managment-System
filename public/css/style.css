@@ -75,3 +75,17 @@ body
     position: relative;
 }
 
+.table-login{
+    position: relative;
+    margin: auto;
+    width: 50%;
+}
+
+#login-button{
+    text-align: center;
+}
+
+.radio-login{
+    margin-left: 3px;
+    margin-right: 3px;
+}
