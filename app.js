@@ -427,8 +427,8 @@ myApp.post("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
 {
     Student.findOne({sId : req.body.studentId}).then((student)=>
     {
-        const {sId, sName, sSemester, sEmail, sPhone, sParentPhone,sAddress, isStudentActive} = student;
-        res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName,sId, sName, sSemester, sEmail, sPhone, sAddress, sParentPhone, isStudentActive})	
+        const {sId, sName, sSemester, sEmail, sPhone, sParentPhone,sAddress, sDepartment,isStudentActive} = student;
+        res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName,sId, sName, sSemester, sEmail, sPhone, sAddress, sParentPhone, sDepartment,isStudentActive})	
     }).catch((err)=>{
         if(err) throw err;
     });
@@ -436,13 +436,13 @@ myApp.post("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
 myApp.post("/modifyStudentDetailsConfirm",isTeacherLoggedIn,(req,res) =>
 {
     let isStudentActive = null;
-    const {sName, sId, sSemester, sEmail, sPhone, sParentPhone,sAddress} = req.body;
+    const {sName, sId, sSemester, sEmail, sPhone, sParentPhone,sDepartment,sAddress} = req.body;
     if(req.body.isStudentActive)
             isStudentActive = true;
         else
             isStudentActive = false;
     Student.updateOne({sId : sId},{sName : sName, sSemester : sSemester, sEmail : sEmail, 
-        sPhone : sPhone, sParentPhone : sParentPhone, sAddress : sAddress, 
+        sPhone : sPhone, sParentPhone : sParentPhone, sAddress : sAddress, sDepartment : sDepartment,
         isStudentActive : isStudentActive}).
     then((student)=>{
         req.flash("success_alert_message","Student details updated successfully.")

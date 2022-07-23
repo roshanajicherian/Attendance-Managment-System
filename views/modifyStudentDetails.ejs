@@ -46,25 +46,82 @@
                 <p>
                 <label class="mt-3">Semester</label>
                 <select class="mt-3" name="sSemester" id="semSelect">
-                    <option value="S1">S1</option>
-                    <option value="S2">S2</option>
-                    <option value="S3">S3</option>
-                    <option value="S4">S4</option>
-                    <option value="S5">S5</option>
-                    <option value="S6">S5</option>
-                    <option value="S7">S6</option>
-                    <option value="S8">S8</option>
+                    <% if(sSemester == "S1") {%>
+                        <option value="S1" selected>S1</option>
+                    <% } else { %>
+                        <option value="S1">S1</option>
+                    <% } %>
+                    <% if(sSemester == "S2") {%>
+                        <option value="S2" selected>S2</option>
+                    <% } else { %>
+                        <option value="S2">S2</option>
+                    <% } %>
+                    <% if(sSemester == "S3") {%>
+                        <option value="S3" selected>S3</option>
+                    <% } else { %>
+                        <option value="S3">S3</option>
+                    <% } %>
+                    <% if(sSemester == "S4") {%>
+                        <option value="S4" selected>S4</option>
+                    <% } else { %>
+                        <option value="S4" >S4</option>
+                    <% } %>
+                    <% if(sSemester == "S5") {%>
+                        <option value="S5" selected>S5</option>
+                    <% } else { %>
+                        <option value="S5">S5</option>
+                    <% } %>
+                    <% if(sSemester == "S6") {%>
+                        <option value="S6" selected>S6</option>
+                    <% } else { %>
+                        <option value="S6" >S6</option>
+                    <% } %>
+                    <% if(sSemester == "S7") {%>
+                        <option value="S7" selected>S7</option>
+                    <% } else { %>
+                        <option value="S7">S7</option>
+                    <% } %>
+                    <% if(sSemester == "S8") {%>
+                        <option value="S8" selected>S8</option>
+                    <% } else { %>
+                        <option value="S8">S8</option>
+                    <% } %>
                 </select>
                 <br>
                 </p>
                 <p>
                 <label class="mt-3">Department</label>
                 <select class="mt-3" name="sDepartment" id="depSelect">
-                    <option value="IT">IT</option>
+                    <% if(sDepartment == "IT") {%>
+                        <option value="IT" selected>IT</option>
+                    <% } else { %>
+                        <option value="IT">IT</option>
+                    <% } %>
+                    <% if(sDepartment == "EC") {%>
+                        <option value="EC" selected>EC</option>
+                    <% } else { %>
+                        <option value="EC">EC</option>
+                    <% } %>
+                    <% if(sDepartment == "EE") {%>
+                        <option value="EE" selected>EE</option>
+                    <% } else { %>
+                        <option value="EE">EE</option>
+                    <% } %>
+                    <% if(sDepartment == "ME") {%>
+                        <option value="ME" selected>ME</option>
+                    <% } else { %>
+                        <option value="ME">ME</option>
+                    <% } %>
+                    <% if(sDepartment == "CE") {%>
+                        <option value="CE" selected>CE</option>
+                    <% } else { %>
+                        <option value="CE">CE</option>
+                    <% } %>
+                    <!-- <option value="IT">IT</option>
                     <option value="EC">EC</option>
                     <option value="EE">EE</option>
                     <option value="ME">ME</option>
-                    <option value="CE">CE</option>
+                    <option value="CE">CE</option> -->
                 </select>
                 <br>
                 </p>
