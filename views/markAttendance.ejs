@@ -25,34 +25,36 @@
             <input type="date" id="dateSelect" name="dateSelect">
             <br>
             <input type="submit" value="Confirm" class="btn btn-success mt-3">
-            <input type="button" value="Cancel" class="btn btn-danger mt-3">
+            <a href="/teacherLanding" class="btn btn-danger mt-3">Cancel</a>
         </form>
     </div>
-    <form action="/markAttendanceConfirm" method="post">
-        <div class="studentDisplayTable">
-            <table class="table mt-2 table-bordered table-sm">
-                <thead class="thead-dark">
-                    <tr>
-                        <td>Student ID</td>
-                        <td>Student Name</td>
-                        <td>Present/Absent</td>
-                    </tr>
-                </thead>
-                <tbody class="table-striped">
-                    <% if(studentDetails) { %>
-                        <% for(let i = 0; i < studentDetails.length; i++) { %>
-                            <tr>
-                                <td><%= studentDetails[i].sId %></td>
-                                <td><%= studentDetails[i].sName %></td>
-                                <td><input type="checkbox" name="studentDetails[]" value="<%= studentDetails[i].sId %>"></td>
-                            </tr>
+    <% if (typeof studentDetails !== 'undefined') { %>
+        <form action="/markAttendanceConfirm" method="post">
+            <div class="studentDisplayTable">
+                <table class="table mt-2 table-bordered table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <td>Student ID</td>
+                            <td>Student Name</td>
+                            <td>Present/Absent</td>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <% if(studentDetails) { %>
+                            <% for(let i = 0; i < studentDetails.length; i++) { %>
+                                <tr>
+                                    <td><%= studentDetails[i].sId %></td>
+                                    <td><%= studentDetails[i].sName %></td>
+                                    <td><input type="checkbox" name="studentDetails[]" value="<%= studentDetails[i].sId %>"></td>
+                                </tr>
+                            <% } %>
                         <% } %>
-                    <% } %>
-                </tbody>
-            </table>
-        </div>
-        <button class="btn btn-success" type="submit">Confirm</button>
-    </form>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-success" type="submit">Save</button>
+        </form>
+    <% } %>
 </div>
 <script src="js/main.js"></script>
 <%- include("footer") %>

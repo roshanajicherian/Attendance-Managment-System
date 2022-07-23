@@ -1,3 +1,7 @@
+html,body
+{
+    min-height: 100%;
+}
 body
 {
     font-family: 'Montserrat', sans-serif;
@@ -6,14 +10,18 @@ body
 {
     background: rgb(20, 20, 37);
     color: white;
-    position: fixed;
+    position: relative;
     bottom: 0px;
     height: 50px;
 }
 .centerAlign
 {
-    padding: 70px 0;
-    text-align: center;
+    /* padding: 70px 0;*/
+    text-align: center; 
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    /* padding-left: 20px; */
     
 }
 .card
@@ -89,3 +97,14 @@ body
     margin-left: 3px;
     margin-right: 3px;
 }
+.formAllign
+{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    /* padding-left: 20px; */
+}
+.formAllign form  { display: table;      }
+.formAllign p     { display: table-row;  }
+.formAllign label { display: table-cell; }
+.formAllign input { display: table-cell; }
