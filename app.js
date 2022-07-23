@@ -161,6 +161,16 @@ myApp.get("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
     let userName = req.user.tName
     res.render("modifyStudentDetails",{pageTitle : pageTitle,userName : userName})
 })
+myApp.get("/viewCourses",isTeacherLoggedIn,(req,res) =>
+{
+    const pageTitle = "View Courses"
+    let userName = req.user.tName
+    let courseList = req.user.courseIdList
+    let courseNames = []
+    for(let i=0;i<courseList.length;i++)
+        courseNames.push({cId : courseList[i].cid,cName : courseList[i].cName})
+    res.render("viewCourses",{pageTitle : pageTitle,userName : userName, courseNames : courseNames})
+})
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
 {
