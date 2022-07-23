@@ -48,6 +48,18 @@ let selectedCourse = null;
 let courseId = null;
 let attendanceDate = null;
 
+myApp.use(function(req, res, next) {
+    courseList = []
+    Course.find((err,course)=>{
+    if(err) throw err;
+    for(let i=0;i<course.length;i++)
+    {
+        courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
+    }
+    res.locals.courseList = courseList;
+});
+    next();
+});
 myApp.get("/",(req,res) =>
 {
     let pageTitle = "Login"
@@ -118,7 +130,6 @@ myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
         {
             courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
         }
-        console.log(courseList);
     res.render("markAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
     });
 })
@@ -143,8 +154,8 @@ myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
     let pageTitle = "Student Dashboard"
     let userName = req.user.sName;
     let studentID = req.user.sId;
-    let emailID = "abc@xyz.com"
-    let studentAddress = "5-C, New Oaks Apartment, Pattom, Trivandrum 695004"
+    let emailID = req.user.sEmail;
+    let studentAddress = req.user.sAddress;
 
     res.render("studentLanding",{pageTitle : pageTitle,userName : userName, studentID : studentID,emailID : emailID, studentAddress : studentAddress})
 })
@@ -296,12 +307,11 @@ myApp.post("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
 {
     selectedCourse = req.body.courseSelect;
     let studentDetails = [];
-    let courseList = [];
     Student.find({sSemester : req.body.semSelect}).then((studentList)=>
     {
         for(let i = 0;i<studentList.length;i++)   
             studentDetails.push({sId : studentList[i].sId, sName : studentList[i].sName})
-        res.render("addStudenttoCourse",{pageTitle : "Add Student to Course",userName : "Teacher Name",courseList : courseList,studentDetails : studentDetails})
+        res.render("addStudenttoCourse",{pageTitle : "Add Student to Course",userName : "Teacher Name",studentDetails : studentDetails})
     }).catch((err)=>{
         if(err) throw err;
     })
@@ -332,14 +342,13 @@ myApp.post("/studentDisplayTableConfirm",isTeacherLoggedIn,(req,res) =>
 myApp.post("/markAttendance",isTeacherLoggedIn,(req,res) =>
 {
     let studentDetails = [];
-    let courseList =  [];
     courseId = req.body.courseSelect;
     attendanceDate =  req.body.dateSelect;
     Student.find({sSemester : req.body.semSelect, enrolledCourse : req.body.courseSelect}).then((studentList)=>
     {
         for(let i = 0;i<studentList.length;i++)   
             studentDetails.push({sId : studentList[i].sId, sName : studentList[i].sName})
-        res.render("markAttendance",{pageTitle : "Mark Attendance",userName : "Teacher Name",studentDetails : studentDetails, courseList : courseList, dateSelect : req.body.dateSelect})
+        res.render("markAttendance",{pageTitle : "Mark Attendance",userName : "Teacher Name",studentDetails : studentDetails, dateSelect : req.body.dateSelect})
     }).catch((err)=>{
         if(err) throw err;
     })
@@ -365,23 +374,17 @@ myApp.post("/markAttendanceConfirm",isTeacherLoggedIn,(req,res) =>
 myApp.post("/viewAttendance",isStudentLoggedIn,(req,res) =>
 {
     let weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday']
-    console.log(req.user);
     let datesList = [];
     let sId = req.user.sId;
     let courseId = req.body.courseSelect;
-    console.log(sId)
-    console.log(courseId)
-    console.log("-------------------------------")
     Attendance.find({studentId : sId, courseId : courseId}).
     then((attend)=>{
-        console.log(attend)
         for(let i = 0;i<attend.length;i++)   
         {
             let tempDate = new Date(attend[i].lessonDate);
             datesList.push(weekday[tempDate.getDay()] +", " + tempDate.toLocaleDateString());
         }
-        console.log(datesList);
-        res.render("viewAttendance",{pageTitle : "View Attendance",userName : "Teacher Name",dateSelect : req.body.dateSelect, dateList : datesList, courseList : null})
+        res.render("viewAttendance",{pageTitle : "View Attendance",userName : req.user.sName,dateSelect : req.body.dateSelect, dateList : datesList})
     }).
     catch((err)=>{
         if(err) throw err;

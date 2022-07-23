@@ -2,31 +2,45 @@
 <div class="container-fluid">
     <div class="centerAlign">
         <%- include("messages") %>
-        <form method="post" action="/addTeacher">
-            <h1>Add Teacher</h1>
-            <label class="mt-3">Name</label>
-            <input class="mt-3" type="text" placeholder="Name" name="tName">
-            <br>
-            <label class="mt-3">ID</label>
-            <input class="mt-3" type="text" placeholder="ID" name="tid">
-            <br>
-            <label class="mt-3">Password</label>
-            <input class="mt-3" type="password" placeholder="Password" name="tPassword">
-            <br>
-            <label class="mt-3">Phone</label>
-            <input class="mt-3" type="text" placeholder="Phone" name="tPhone">
-            <br>
-            <label class="mt-3">Department</label>
-            <select class="mt-3" name="tDepartment" id="depSelect">
-                <option value="IT">IT</option>
-                <option value="EC">EC</option>
-                <option value="EE">EE</option>
-                <option value="ME">ME</option>
-                <option value="CE">CE</option>
-            </select>
-            <br>
-            <input class="btn btn-primary mt-3" type="submit" value="OK" >
-        </form>
+        <h1>Add Teacher</h1>
+        <div class="formAllign">
+            <form method="post" action="/addTeacher">
+                <p>
+                <label class="mt-3">Name</label>
+                <input class="mt-3" type="text" placeholder="Name" name="tName">
+                <br>
+                </p>
+                <p>
+                <label class="mt-3">ID</label>
+                <input class="mt-3" type="text" placeholder="ID" name="tid">
+                <br>
+                </p>
+                <p>
+                <label class="mt-3">Password</label>
+                <input class="mt-3" type="password" placeholder="Password" name="tPassword">
+                <br>
+                </p>
+                <p>
+                <label class="mt-3">Phone</label>
+                <input class="mt-3" type="text" placeholder="Phone" name="tPhone">
+                <br>
+                </p>
+                <p>
+                <label class="mt-3">Department</label>
+                <select class="mt-3" name="tDepartment" id="depSelect">
+                    <option value="IT">IT</option>
+                    <option value="EC">EC</option>
+                    <option value="EE">EE</option>
+                    <option value="ME">ME</option>
+                    <option value="CE">CE</option>
+                </select>
+                <br>
+                </p>
+                <p>
+                <input class="btn btn-primary mt-3" type="submit" value="OK" >
+                </p>
+            </form>
+    </div>
     </div>
 </div>
 <%- include("footer") %>
