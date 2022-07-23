@@ -148,6 +148,12 @@ myApp.get("/viewAttendance",isStudentLoggedIn,(req,res) =>
     });
 })
 
+myApp.get("/displayStudentDetails",isTeacherLoggedIn,(req,res) =>
+{
+    const pageTitle = "Display Student Details"
+    let userName = req.user.tName
+    res.render("displayStudentDetails",{pageTitle : pageTitle,userName : userName})
+})
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
 {
@@ -390,6 +396,15 @@ myApp.post("/viewAttendance",isStudentLoggedIn,(req,res) =>
         if(err) throw err;
     });
 
+})
+myApp.post("/displayStudentDetails",isTeacherLoggedIn,(req,res) =>
+{
+    Student.findOne({sId : req.body.studentId}).then((student)=>
+    {
+        res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName,studentDetails : student})	
+    }).catch((err)=>{
+        if(err) throw err;
+    });
 })
 myApp.listen(3000,()=>
 {
