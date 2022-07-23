@@ -450,7 +450,11 @@ myApp.post("/modifyStudentDetailsConfirm",isTeacherLoggedIn,(req,res) =>
     }).
     catch((err) => {if (err) throw err;})
 })
-myApp.listen(process.env.PORT || 3000,()=>
+
+let port = process.env.PORT;
+if(port== null || port=="")
+    port = 3000;
+myApp.listen(port|| 3000,()=>
 {
-    console.log("Server is live on PORT 3000")
+    console.log("Server is live.")
 })
