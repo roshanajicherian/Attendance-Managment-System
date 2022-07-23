@@ -5,7 +5,7 @@ function isTeacherLoggedIn(req,res,next)
 {
     if(req.isAuthenticated())
     {
-        Teacher.findOne({id : req.user_id}).then((teacher)=>
+        Teacher.findOne({tid : req.user.tid}).then((teacher)=>
         {
             if(!teacher)
             {
@@ -24,9 +24,10 @@ function isStudentLoggedIn(req,res,next)
 {
     if(req.isAuthenticated())
     {
-        Teacher.findOne({id : req.user_id}).then((teacher)=>
+        Student.findOne({sId : req.user.sId}).then((student)=>
         {
-            if(!teacher)
+            console.log(student);
+            if(!student)
             {
                 res.send("Forbidden")
             }

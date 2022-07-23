@@ -115,7 +115,7 @@ myApp.get("/addStudenttoCourse",isTeacherLoggedIn,(req,res) =>
         {
             courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
         }
-    res.render("addStudenttoCourse",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
+    res.render("addStudenttoCourse",{pageTitle : pageTitle,userName : userName, courseList : courseList})
     });
 })
 
@@ -130,7 +130,7 @@ myApp.get("/markAttendance",isTeacherLoggedIn,(req,res) =>
         {
             courseList.push({cid : course[i].id,sem : course[i].cSemester, cName : course[i].cName})
         }
-    res.render("markAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList, studentDetails : null})
+    res.render("markAttendance",{pageTitle : pageTitle,userName : userName, courseList : courseList})
     });
 })
 myApp.get("/viewAttendance",isStudentLoggedIn,(req,res) =>
@@ -153,6 +153,13 @@ myApp.get("/displayStudentDetails",isTeacherLoggedIn,(req,res) =>
     const pageTitle = "Display Student Details"
     let userName = req.user.tName
     res.render("displayStudentDetails",{pageTitle : pageTitle,userName : userName})
+})
+
+myApp.get("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
+{
+    const pageTitle = "Modify Student Details"
+    let userName = req.user.tName
+    res.render("modifyStudentDetails",{pageTitle : pageTitle,userName : userName})
 })
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
@@ -354,7 +361,7 @@ myApp.post("/markAttendance",isTeacherLoggedIn,(req,res) =>
     {
         for(let i = 0;i<studentList.length;i++)   
             studentDetails.push({sId : studentList[i].sId, sName : studentList[i].sName})
-        res.render("markAttendance",{pageTitle : "Mark Attendance",userName : "Teacher Name",studentDetails : studentDetails, dateSelect : req.body.dateSelect})
+        res.render("markAttendance",{pageTitle : "Mark Attendance",userName : req.user.tName,studentDetails : studentDetails, dateSelect : req.body.dateSelect})
     }).catch((err)=>{
         if(err) throw err;
     })
@@ -405,6 +412,33 @@ myApp.post("/displayStudentDetails",isTeacherLoggedIn,(req,res) =>
     }).catch((err)=>{
         if(err) throw err;
     });
+})
+myApp.post("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
+{
+    Student.findOne({sId : req.body.studentId}).then((student)=>
+    {
+        const {sId, sName, sSemester, sEmail, sPhone, sParentPhone,sAddress, isStudentActive} = student;
+        res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName,sId, sName, sSemester, sEmail, sPhone, sAddress, sParentPhone, isStudentActive})	
+    }).catch((err)=>{
+        if(err) throw err;
+    });
+})
+myApp.post("/modifyStudentDetailsConfirm",isTeacherLoggedIn,(req,res) =>
+{
+    let isStudentActive = null;
+    const {sName, sId, sSemester, sEmail, sPhone, sParentPhone,sAddress} = req.body;
+    if(req.body.isStudentActive)
+            isStudentActive = true;
+        else
+            isStudentActive = false;
+    Student.updateOne({sId : sId},{sName : sName, sSemester : sSemester, sEmail : sEmail, 
+        sPhone : sPhone, sParentPhone : sParentPhone, sAddress : sAddress, 
+        isStudentActive : isStudentActive}).
+    then((student)=>{
+        req.flash("success_alert_message","Student details updated successfully.")
+        res.redirect("/modifyStudentDetails")
+    }).
+    catch((err) => {if (err) throw err;})
 })
 myApp.listen(3000,()=>
 {
