@@ -12,6 +12,9 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "16.14.0"
+},
   "bugs": {
     "url": "https://github.com/roshanajicherian/Attendance-Managment-System/issues"
   },
