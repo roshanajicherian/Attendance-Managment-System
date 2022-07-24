@@ -38,7 +38,8 @@ myApp.use(passport.session());
 
 myApp.use(function(req, res, next) {
     res.locals.success_alert_message  = req.flash('success_alert_message');
-    res.locals.error_message = req.flash('error_message');
+    res.locals.error_alert_message  = req.flash('error_alert_message');
+    // res.locals.error_message = req.flash('error_message');
     res.locals.error = req.flash('error');
     next();
 });
@@ -69,7 +70,7 @@ myApp.get("/enrollStudents",isTeacherLoggedIn,(req,res) =>
 {
     let pageTitle = "Enroll Students"
     let userName = req.user.tName
-    res.render("enrollStudents",{pageTitle : pageTitle,userName : userName})
+    res.render("enrollStudents",{pageTitle : pageTitle,userName : userName, sName: "", sId: "", sEmail: "", sAddress: "", sPhone: "", sParentPhone: "", sSemester: "", sDepartment: ""})
 })
 myApp.get("/addTeacher",(req,res) =>
 {
@@ -283,7 +284,14 @@ myApp.post("/enrollStudents",(req,res) =>
                     newStudent.save().then((user)=>{
                         req.flash("success_alert_message","Student has been registered. You can now login")
                         res.redirect("/enrollStudents")
-                    }) 
+                    }).catch((err)=>{
+                        if(err.code === 11000)
+                        {
+                            errors.push("Student already exists")
+                            console.log(sName);
+                            res.render("enrollStudents",{pageTitle : pageTitle,userName : userName,errors : errors, sName, sId, sPhone, sEmail,sAddress,sParentPhone, sSemester, sDepartment})
+                        }
+                    })
         })
         })
     }

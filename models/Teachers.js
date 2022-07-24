@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const TeaherSchema = new mongoose.Schema({
     tid : {
         type : String,
+        unique : true,
         required : true
     },
     tName : {

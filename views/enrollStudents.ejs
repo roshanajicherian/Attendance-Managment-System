@@ -7,7 +7,7 @@
             <form method="post" action="/enrollStudents">
                 <p>
                 <label class="mt-3">Name</label>
-                <input class="mt-3" type="text" placeholder="Name" name="sName">
+                <input class="mt-3" type="text" placeholder="Name" name="sName" value="<%= sName %>">
                 <br>
                 </p>
                 <p>
@@ -17,22 +17,22 @@
                 </p>
                 <p>
                 <label class="mt-3">Email</label>
-                <input class="mt-3" type="email" placeholder="ID" name="sEmail">
+                <input class="mt-3" type="email" placeholder="ID" name="sEmail" value="<%= sEmail %>">
                 <br>
                 </p>
                 <p>
                 <label class="mt-3">Address</label>
-                <textarea style="resize: none" name="sAddress" class="mt-3" id="sAddress" cols="15" rows="5"></textarea>
+                <textarea style="resize: none" name="sAddress" class="mt-3" id="sAddress" cols="15" rows="5"><%= sAddress %></textarea>
                 <br>
                 </p>
                 <p>
                 <label class="mt-3">Phone</label>
-                <input class="mt-3" type="text" placeholder="Phone" name="sPhone">
+                <input class="mt-3" type="text" placeholder="Phone" name="sPhone" value="<%= sPhone %>">
                 <br>
                 </p>
                 <p>
                 <label class="mt-3">Parent Phone</label>
-                <input class="mt-3" type="text" placeholder="Parent Phone" name="sParentPhone">
+                <input class="mt-3" type="text" placeholder="Parent Phone" name="sParentPhone" value="<%= sParentPhone %>">
                 <br>
                 </p>
                 <p>
