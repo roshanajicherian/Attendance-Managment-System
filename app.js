@@ -1,6 +1,7 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const csv=require("csvtojson");
 const Teacher = require("./models/Teachers");
 const Student = require("./models/Students");
 const Course = require("./models/Courses");
@@ -171,6 +172,13 @@ myApp.get("/viewCourses",isTeacherLoggedIn,(req,res) =>
     for(let i=0;i<courseList.length;i++)
         courseNames.push({cId : courseList[i].cid,cName : courseList[i].cName})
     res.render("viewCourses",{pageTitle : pageTitle,userName : userName, courseNames : courseNames})
+})
+
+myApp.get("/batchAddStudents",isTeacherLoggedIn,(req,res) =>
+{
+    const pageTitle = "Batch Add Students"
+    let userName = req.user.tName
+    res.render("batchAddStudents",{pageTitle : pageTitle,userName : userName})
 })
 
 myApp.get("/studentLanding",isStudentLoggedIn,(req,res) =>
@@ -426,7 +434,14 @@ myApp.post("/displayStudentDetails",isTeacherLoggedIn,(req,res) =>
 {
     Student.findOne({sId : req.body.studentId}).then((student)=>
     {
-        res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName,studentDetails : student})	
+        if(student!=null)
+        {
+            res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName,studentDetails : student})	
+        }
+        else
+        {
+            res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName})	
+        }
     }).catch((err)=>{
         if(err) throw err;
     });
@@ -435,12 +450,99 @@ myApp.post("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
 {
     Student.findOne({sId : req.body.studentId}).then((student)=>
     {
+        if(student !== null)
+        {
         const {sId, sName, sSemester, sEmail, sPhone, sParentPhone,sAddress, sDepartment,isStudentActive} = student;
         res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName,sId, sName, sSemester, sEmail, sPhone, sAddress, sParentPhone, sDepartment,isStudentActive})	
+        }
+        else
+        {
+            res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName})	
+        }
     }).catch((err)=>{
         if(err) throw err;
     });
 })
+
+myApp.post("/batchAddStudents",isTeacherLoggedIn,(req,res) =>
+{
+    let csvDataInput = req.body.csvData;
+    let finalData = [];
+    csv({
+        noheader:true,
+        output: "csv"
+    })
+    .fromString(csvDataInput)
+    .then((csvRow)=>{ 
+        for(let i = 1;i<csvRow.length;i++)
+        {
+            let sName = csvRow[i][0]
+            let sId = csvRow[i][1]
+            let sPhone = csvRow[i][2]
+            let sEmail = csvRow[i][3]
+            let sAddress = csvRow[i][4]
+            let sParentPhone = csvRow[i][5]
+            let sSemester = csvRow[i][6]
+            let sDepartment = csvRow[i][7]
+            finalData.push({sName : sName, sId : sId, sPhone : sPhone, sEmail : sEmail,sAddress : sAddress,sParentPhone : sParentPhone, sSemester : sSemester, sDepartment : sDepartment});
+        }
+        let errors = [];
+        let errorEncountered = false;
+        for(let i = 0;i<finalData.length;i++)
+        {
+            if(errorEncountered)
+                break;
+            const {sName, sId, sPhone, sEmail,sAddress,sParentPhone, sSemester, sDepartment} = finalData[i];
+            if(!sName||!sId||!sPhone||!sEmail||!sAddress||!sParentPhone||!sSemester||!sDepartment)
+            {
+                errors.push("Error in CSV data. Please check the data again.");
+            }
+            if(errors.length === 0)
+            {
+                const newStudent = new Student(
+                    {
+                        sName,
+                        sId,
+                        sEmail,
+                        sAddress,
+                        sPhone,
+                        sParentPhone,
+                        sSemester,
+                        sDepartment
+                    }
+                );
+                bcrypt.genSalt(10,(err,salt) => 
+                {
+                    if(err) throw err;
+                        bcrypt.hash(newStudent.sPassword,salt,(err,hash) => {
+                            if(err) throw err;
+                            newStudent.sPassword = hash
+                            newStudent.save().then((student)=>{
+                                console.log("Student details saved successfully.");
+                            }).catch((err)=>{
+                                errorEncountered = true;
+                                if(err.code === 11000)
+                                {
+                                    errors.push("Student already exists")
+                                    console.log(sName);
+                                    res.render("batchAddStudents",{pageTitle : pageTitle,userName : userName,errors : errors, sName, sId, sPhone, sEmail,sAddress,sParentPhone, sSemester, sDepartment})
+                                }
+                            });
+                })
+                })
+            }
+            else
+            {
+                errorEncountered = true;
+                res.render("batchAddStudents",{pageTitle : pageTitle,userName : userName,errors : errors})
+            }
+        }
+        if(errorEncountered ===false)
+            res.redirect("/teacherLanding");
+
+    })
+})
+
 myApp.post("/modifyStudentDetailsConfirm",isTeacherLoggedIn,(req,res) =>
 {
     let isStudentActive = null;
