@@ -1,0 +1,16 @@
+<%- include("header") %>
+<div class="container-fluid">
+    <div class="centerAlign">
+        <%- include("messages") %>
+        <h1>Add Student</h1>
+        <div class="formAllign">
+            <form method="post" action="/batchAddStudents">
+                <textarea name="csvData" id="csvDataInput" cols="30" rows="10"></textarea>
+                <input class="btn btn-primary mt-3" type="submit" value="Save" >
+                <a class="btn btn-danger mt-3" href="teacherLanding">Cancel</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("footer") %>
