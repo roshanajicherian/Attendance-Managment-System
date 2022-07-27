@@ -434,7 +434,14 @@ myApp.post("/displayStudentDetails",isTeacherLoggedIn,(req,res) =>
 {
     Student.findOne({sId : req.body.studentId}).then((student)=>
     {
-        res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName,studentDetails : student})	
+        if(student!=null)
+        {
+            res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName,studentDetails : student})	
+        }
+        else
+        {
+            res.render("displayStudentDetails",{pageTitle : "Display Student Details",userName : req.user.tName})	
+        }
     }).catch((err)=>{
         if(err) throw err;
     });
@@ -443,8 +450,15 @@ myApp.post("/modifyStudentDetails",isTeacherLoggedIn,(req,res) =>
 {
     Student.findOne({sId : req.body.studentId}).then((student)=>
     {
+        if(student !== null)
+        {
         const {sId, sName, sSemester, sEmail, sPhone, sParentPhone,sAddress, sDepartment,isStudentActive} = student;
         res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName,sId, sName, sSemester, sEmail, sPhone, sAddress, sParentPhone, sDepartment,isStudentActive})	
+        }
+        else
+        {
+            res.render("modifyStudentDetails",{pageTitle : "Modify Student Details",userName : req.user.tName})	
+        }
     }).catch((err)=>{
         if(err) throw err;
     });

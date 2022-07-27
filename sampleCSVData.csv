@@ -1,0 +1,11 @@
+sName,sId,sPhone,sEmail,sAddress,sParentPhone,sSemester,sDepartment
+sampleName1,TRV19IT001,123456789,sampleName1@gmail.com,sampleAddress1,1234556789,S1,IT
+sampleName2,TRV19IT002,123456789,sampleName2@gmail.com,sampleAddress2,1234556789,S1,IT
+sampleName3,TRV19IT003,123456789,sampleName2@gmail.com,sampleAddress3,123456789,S1,IT
+sampleName4,TRV19IT004,123456789,sampleName2@gmail.com,sampleAddress4,123456789,S1,IT
+sampleName6,TRV19IT006,123456789,sampleName2@gmail.com,sampleAddress6,123456789,S1,IT
+sampleName7,TRV19IT007,123456789,sampleName2@gmail.com,sampleAddress7,123456789,S1,IT
+sampleName8,TRV19IT008,123456789,sampleName2@gmail.com,sampleAddress8,123456789,S1,IT
+sampleName9,TRV19IT009,123456789,sampleName2@gmail.com,sampleAddress9,123456789,S1,IT
+sampleName10,TRV19IT010,123456789,sampleName2@gmail.com,sampleAddress10,123456789,S1,IT
+sampleName11,TRV19IT011,123456789,sampleName2@gmail.com,sampleAddress11,123456789,S1,IT
