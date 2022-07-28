@@ -1,17 +1,17 @@
 <%- include("header") %>
-<div class="container-fluid">
+<div class="container-fluid vcourse">
     <div class="centerAlign">
         <h1>Display Course Details</h1>
         <% if(typeof courseNames !== 'undefined') { %>
-        <table class="mt-3">
-            <tr>
-                <th>Course ID</th>
-                <th>Course Name</th>
+        <table class="mt-3 vcTable table table-dark table-bordered">
+            <tr class="vctr">
+                <th class="vcth">Course ID</th>
+                <th class="vcth">Course Name</th>
             </tr>
             <% for (var i = 0; i < courseNames.length; i++) { %>
-            <tr>
-                <td><%=courseNames[i].cId %></td>
-                <td><%=courseNames[i].cName %></td>
+            <tr class="vctr">
+                <td class="vctd"><%=courseNames[i].cId %></td>
+                <td class="vctd"><%=courseNames[i].cName %></td>
             </tr>
             <% } %>
         </table>

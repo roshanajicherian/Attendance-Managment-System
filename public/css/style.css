@@ -1,6 +1,7 @@
 html,body
 {
     min-height: 100%;
+    
 }
 body
 {
@@ -8,11 +9,15 @@ body
 }
 .footer
 {
-    background: rgb(20, 20, 37);
+
+   position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgb(20, 20, 37);
     color: white;
-    position: absolute;
-    bottom: 0px;
-    height: 50px;
+  text-align: center;
+    
 }
 .centerAlign
 {
@@ -90,6 +95,23 @@ body
     width: 50%;
 }
 
+.vcourse{
+    text-align: center;
+}
+
+
+
+.estu_td{
+    padding: 10px;
+    margin: 10px;
+}
+
+.vctr,.vcth,.vctd{
+    padding-right: 10px;
+    padding-left: 10px;
+    text-align: left;
+}
+
 #login-button{
     text-align: center;
 }
@@ -109,3 +131,7 @@ body
 .formAllign p     { display: table-row;  }
 .formAllign label { display: table-cell; }
 .formAllign input { display: table-cell; }
+
+@media screen and (max-width : 700px){
+   
+}
