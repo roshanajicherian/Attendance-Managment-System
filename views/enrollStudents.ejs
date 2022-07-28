@@ -1,68 +1,93 @@
 <%- include("header") %>
-<div class="container-fluid">
+<div class="container-fluid erollstu">
     <div class="centerAlign">
         <%- include("messages") %>
         <h1>Add Student</h1>
         <div class="formAllign">
-            <form method="post" action="/enrollStudents">
-                <p>
-                <label class="mt-3">Name</label>
-                <input class="mt-3" type="text" placeholder="Name" name="sName" value="<%= sName %>">
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">ID</label>
-                <input class="mt-3" type="text" placeholder="ID" name="sId">
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">Email</label>
-                <input class="mt-3" type="email" placeholder="ID" name="sEmail" value="<%= sEmail %>">
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">Address</label>
-                <textarea style="resize: none" name="sAddress" class="mt-3" id="sAddress" cols="15" rows="5"><%= sAddress %></textarea>
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">Phone</label>
-                <input class="mt-3" type="text" placeholder="Phone" name="sPhone" value="<%= sPhone %>">
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">Parent Phone</label>
-                <input class="mt-3" type="text" placeholder="Parent Phone" name="sParentPhone" value="<%= sParentPhone %>">
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">Semester</label>
-                <select class="mt-3" name="sSemester" id="semSelect">
-                    <option value="S1">S1</option>
-                    <option value="S2">S2</option>
-                    <option value="S3">S3</option>
-                    <option value="S4">S4</option>
-                    <option value="S5">S5</option>
-                    <option value="S6">S5</option>
-                    <option value="S7">S6</option>
-                    <option value="S8">S8</option>
-                </select>
-                <br>
-                </p>
-                <p>
-                <label class="mt-3">Department</label>
-                <select class="mt-3" name="sDepartment" id="depSelect">
-                    <option value="IT">IT</option>
-                    <option value="EC">EC</option>
-                    <option value="EE">EE</option>
-                    <option value="ME">ME</option>
-                    <option value="CE">CE</option>
-                </select>
-                <br>
-                </p>
+            <form method="post" class="erollstu" action="/enrollStudents">
+                <table class="table table-light table-hover estutable">
 
-                <input class="btn btn-primary mt-3" type="submit" value="Save" >
-                <a class="btn btn-danger mt-3" href="teacherLanding">Cancel</a>
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Name</label></td>
+                        <td class="estu_td"><input class="mt-3" type="text" placeholder="Name" name="sName" value="<%= sName %>"></td>
+                            
+                            
+                            
+                    </tr>
+                        
+
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">ID</label></td>
+                        <td class="estu_td"><input class="mt-3" type="text" placeholder="ID" name="sId"></td>
+                    </tr>
+                        
+                        
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Email</label></td>
+                        <td class="estu_td"><input class="mt-3" type="email" placeholder="ID" name="sEmail" value="<%= sEmail %>"></td>
+                        
+                    </tr>
+                        
+                    
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Address</label></td>
+                        <td class="estu_td"><textarea style="resize: none" name="sAddress" class="mt-3" id="sAddress" cols="15" rows="5"><%= sAddress %></textarea></td>
+                            
+                            
+                            
+                    </tr>
+                        
+                    
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Phone</label></td>
+                        <td class="estu_td"><input class="mt-3" type="text" placeholder="Phone" name="sPhone" value="<%= sPhone %>"></td>
+                       
+                    </tr>
+                        
+
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Parent Phone</label></td>
+                        <td class="estu_td"><input class="mt-3" type="text" placeholder="Parent Phone" name="sParentPhone" value="<%= sParentPhone %>"></td>
+                       
+                    </tr>
+                        
+        
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Semester</label></td>
+                        <td class="estu_td"><select class="mt-3" name="sSemester" id="semSelect">
+                            <option value="S1">S1</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                            <option value="S4">S4</option>
+                            <option value="S5">S5</option>
+                            <option value="S6">S5</option>
+                            <option value="S7">S6</option>
+                            <option value="S8">S8</option>
+                        </select></td>
+                    </tr>
+                        
+        
+                    <tr>
+                        <td class="estu_td"><label class="mt-3">Department</label></td>
+                        <td class="estu_td"><select class="mt-3" name="sDepartment" id="depSelect">
+                            <option value="IT">IT</option>
+                            <option value="EC">EC</option>
+                            <option value="EE">EE</option>
+                            <option value="ME">ME</option>
+                            <option value="CE">CE</option>
+                        </select></td>
+                        
+                    </tr>
+                        
+                    <tr>
+                        <td class="estu_td"><input class="btn btn-primary mt-3" type="submit" value="Save" ></td>
+                        <td class="estu_td"><a class="btn btn-danger mt-3" href="teacherLanding">Cancel</a></td>
+                        
+                    </tr>
+        
+                        
+                </table>
+                
 
             </form>
         </div>
